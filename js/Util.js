@@ -3,6 +3,15 @@
 
 import { Events } from "./Libs.js";
 
+
+// for custom type
+class MyHTMLElement extends HTMLElement {
+  constructor(){
+    super();
+  }
+}
+window.customElements.define('my-html-element', MyHTMLElement);
+
 const Util = {
   Quiz: {
     quizData: [
@@ -176,8 +185,8 @@ const Util = {
     },
   },
   get(query) {
-    let element = new Element()
-    element = document.querySelector(query);
+    let element = new MyHTMLElement()
+    element = document.querySelector(query) 
     return element
   },
   getAll(query) {

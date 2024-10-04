@@ -1,10 +1,12 @@
-import {Download, Scenes, Src} from './Libs.js';
+import {Download, Scenes, Src, Dom} from './Libs.js';
 Src.init();
 
 // stepcalling
 Scenes.currentStep = 0;
 Scenes.next();
 console.log(Scenes.realCurrentStep)
+
+
 
 
 setTimeout(() => {
