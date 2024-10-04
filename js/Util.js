@@ -176,10 +176,14 @@ const Util = {
     },
   },
   get(query) {
-    return document.querySelector(query);
+    let element = new Element()
+    element = document.querySelector(query);
+    return element
   },
   getAll(query) {
-    return document.querySelectorAll(query);
+    let element = []
+    element = document.querySelectorAll(query);
+    return element
   },
   toggleNextBtn() {
     let nextBtn = this.get(".btn-next");

@@ -1,7 +1,7 @@
 // * Json data of images, and etc
 import DB from '../database/DB.json' with {type: "json"}
 
-import Dom from "./Dom.js";
+import {Dom, DomList} from "./Dom.js";
 import Util from "./Util.js";
 import Anime from "./Anime.js";
 import Layout from "./layout.js";
@@ -13,6 +13,7 @@ import Sliders from "./sliders.js";
 
 export { 
     Dom,
+    DomList,
     Util,
     Scenes,
     Events,

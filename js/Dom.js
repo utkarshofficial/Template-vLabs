@@ -239,4 +239,10 @@ class Dom {
   forMathematicalExpressionBtn = 0;
 }
 
-export default Dom;
+class DomList{
+  constructor (selector){
+    this.items = Util.getAll(selector).map(ele=>new Dom(ele))
+  }
+}
+
+export {Dom, DomList};
