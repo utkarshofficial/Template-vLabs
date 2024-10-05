@@ -284,6 +284,7 @@ const Scenes = {
   steps: [
     // * Step1
     () => {
+      Src.formulas_ideal.set(0, 0);
     },
   ],
   // ! Scenes Process
@@ -353,7 +354,7 @@ const Scenes = {
     if (this.isRunning) {
       return;
     } else if (this.currentStep < this.steps.length) {
-      this.StepProcess.start()
+      this.StepProcess.start();
       this.steps[this.currentStep]();
       Layout.Drawer.nextDrawerItem();
       Layout.ProgressBar.nextProgressBar();

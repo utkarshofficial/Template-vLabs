@@ -3,14 +3,13 @@
 
 import { Events } from "./Libs.js";
 
-
 // for custom type
 class MyHTMLElement extends HTMLElement {
-  constructor(){
+  constructor() {
     super();
   }
 }
-window.customElements.define('my-html-element', MyHTMLElement);
+window.customElements.define("my-html-element", MyHTMLElement);
 
 const Util = {
   Quiz: {
@@ -185,14 +184,16 @@ const Util = {
     },
   },
   get(query) {
-    let element = new MyHTMLElement()
-    element = document.querySelector(query) 
-    return element
+    let element = new MyHTMLElement();
+    element = document.querySelector(query);
+    return element;
   },
+  
+  // todo suggestion is not working
   getAll(query) {
-    let element = []
+    let element = [];
     element = document.querySelectorAll(query);
-    return element
+    return element;
   },
   toggleNextBtn() {
     let nextBtn = this.get(".btn-next");
@@ -232,7 +233,7 @@ const Util = {
     this.ccObj = new Typed(ccDom, {
       strings: ["", ...this.ccQueue],
       typeSpeed: speed,
-      onStringTyped: ()=> {
+      onStringTyped: () => {
         this.ccQueue.shift();
         // if(ccQueue.length != 0){
         //   setCC(ccQueue.shift())`

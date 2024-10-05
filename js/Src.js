@@ -1,9 +1,30 @@
 import { Dom, Util, DB } from "./Libs.js";
 
-const Src = {
+let Src = {
   // pick imgs from the dom
   init() {
     this.ImageAndVideoGeneration.generateImagesVideosFromDB();
+    let sizeOfSrc = this.Details.getSrcSize();
+    if (sizeOfSrc != DB.images.length) {
+      this.ImageAndVideoGeneration.convertImagesVideosToDomElementForSrc();
+    }
+  },
+  Details: {
+    SrcKeysSize: 3,
+    getSrcSize() {
+      let size = 0;
+      for (let key in Src) {
+        size++;
+      }
+      return size - this.SrcKeysSize;
+    },
+    getKeys(){
+      let keys = []
+      for(let key in Src){
+        keys.push(key)
+      }
+      return keys
+    },
   },
   ImageAndVideoGeneration: {
     count: 0,
@@ -16,6 +37,15 @@ const Src = {
     },
     getAllStepVideosDom() {
       return Util.getAll(".step-videos .main-window-videos");
+    },
+    getImageName(path = "") {
+      if (path.indexOf("/") != -1) {
+        path = path.slice(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+        return path;
+      }
+
+      path = path.slice(0, path.lastIndexOf("."));
+      return path;
     },
 
     // * This will generate images from json in html and converts it html dom to Dom
@@ -33,22 +63,22 @@ const Src = {
       this.allStepVideosDom = this.getAllStepVideosDom();
 
       // convert these images into key value pair for 'Src'
-      this.allStepImagesDom.forEach((imgHTMLDom, idx) => {
-        let imageName = DB.images[idx]
-        let onlyName = imageName.slice(0, imageName.indexOf('.'))
-        Src[onlyName] = new Dom(imgHTMLDom);
-      });
+      // this.allStepImagesDom.forEach((imgHTMLDom, idx) => {
+      //   let imageName = DB.images[idx]
+      //   let onlyName = imageName.slice(0, imageName.indexOf('.'))
+      //   Src[onlyName] = new Dom(imgHTMLDom);
+      // });
     },
 
     addImagesAndVideosInHTML(mediasSrc, mediasPath, mediaBoxHTML) {
       let mediasHTML = mediasSrc
         .map((mediaSrc) => {
           let fullSrc = mediasPath + mediaSrc;
-          console.log(fullSrc)
+          let imageName = this.getImageName(fullSrc);
           if (mediaBoxHTML.classList.contains("step-videos")) {
-            return `<video src="${fullSrc}" class="main-window-imgs" ></video>`;
+            return `<video id="${imageName}" src="${fullSrc}" class="main-window-imgs" ></video>`;
           }
-          return `<img src="${fullSrc}" class="main-window-imgs" />`;
+          return `<img id="${imageName}" src="${fullSrc}" class="main-window-imgs" />`;
         })
         // join is used for seperate all images element with space
         .join("");
@@ -56,11 +86,40 @@ const Src = {
       // update it on html
       mediaBoxHTML.innerHTML = mediasHTML;
     },
+
+    // generate images as attribute as key: value in using id
+    // copy the output and add it to this Src
+    convertImagesVideosToDomElementForSrc() {
+      // output is list of key: value
+      let output = "!!! ADD NEW MEDIA TO SRC !!!\n\n";
+      let blankImageKeys = "\n\n"
+      let imageNameWithDom = ""
+      DB.images.forEach((imgSrc) => {
+        let imageName = this.getImageName(imgSrc);
+
+        // if not present then add
+        if(Src[imageName] == undefined){
+          imageNameWithDom += `\t${imageName}: new Dom('#${imageName}'),\n`;
+          blankImageKeys += `\t${imageName} : "",\n`
+        }
+      });
+
+      // output += blankImageKeys + "\n\n"
+      output += imageNameWithDom
+
+      output += `\n!!! END OF NEW MEDIA !!!\n\n`;
+      console.log(output);
+      return output;
+    },
   },
 
-  // Todo image is generated using above function now just update images using getallimgsDom() and now create generateImagesSrc
-};
-// setting Src
+  // ! Add src here
 
+};
+
+Src = {
+  ...Src,
+  formulas_ideal: new Dom('#formulas_ideal'),
+}
 
 export default Src;
