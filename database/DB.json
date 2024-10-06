@@ -1,11 +1,12 @@
 {
+    "indexFilePath": "./index.html",
+    "srcJSFilePath": "./js/Src.js",
     "imagesPath": "./src/images/step/",
     "images": [
         "formulas_ideal.png",
-        "formulas_nomenclautre.png"
+        "formulas_nomenclautre.png",
+        "formulas_universal.png"
     ],
     "videosPath": "./src/videos/step/",
-    "videos": [
-        
-    ]
+    "videos": []
 }
