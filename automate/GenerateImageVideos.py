@@ -80,20 +80,17 @@ class DB:
             "videos": [],
         }
         # first add default data to json
-        # self.updateData(defaultJSON)
+        self.updateData(defaultJSON)
         self.loadData(dbFilePath)
 
         # then send dyanmic images and videos
         self.DATA.update({
-            "indexFilePath": "./index.html",
-            "srcJSFilePath": "./js/Src.js",
-            "imagesPath": "./src/images/step/",
             "images": os.listdir(self.data.imagesPath),
-            "videosPath": "./src/videos/step/",
             "videos": os.listdir(self.data.videosPath),
         })
         # save it
         self.updateData(self.DATA)
+        self.loadData(dbFilePath)
 
     def loadData(self, dbFilePath: str):
         with open(dbFilePath, "r") as jsonDBFile:
@@ -122,7 +119,7 @@ class Files:
             self.srcJSData = file.readlines()
             file.close()
 
-        self.fileToJsonObject()
+        # self.fileToJsonObject()
 
     def updateIndexFile(self, newFileDataInLines: list[str]):
         with open(db.data.indexFilePath, 'w') as indexFile:
@@ -146,10 +143,10 @@ class Generate:
     SRC_TAB_SAPCE = "    "
 
     def __init__(self) -> None:
-        self.addHTMLImgTags()
+        self.addHTMLImgTagsToIndex()
         self.addSrcToSrcJS()
 
-    def addHTMLImgTags(self):
+    def addHTMLImgTagsToIndex(self):
         classToFind = "step-images"
         start, end = self.findStepMediaStartEnd(files.indexHTMLData, classToFind)
 
@@ -160,7 +157,7 @@ class Generate:
         for i in range(len(db.data.imagesSrcFull)):
             imgSrc = db.data.imagesSrcFull[i]
             imgName = db.data.imageNamesOnly[i]
-            imgTag = f'{self.INDEX_TAB_SPACE}<img id="{imgName}" src="{imgSrc}" />\n'
+            imgTag = f'{self.INDEX_TAB_SPACE}<img id="{imgName}" src="{imgSrc}" class="main-window-imgs"/>\n'
             newImgTags.append(imgTag)
 
         # add it to index

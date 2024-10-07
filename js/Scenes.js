@@ -284,7 +284,7 @@ const Scenes = {
   steps: [
     // * Step1
     () => {
-      
+      Src.formulas_ideal.set(0,0)
     },
   ],
   // ! Scenes Process
